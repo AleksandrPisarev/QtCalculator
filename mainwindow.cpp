@@ -86,113 +86,126 @@ void MainWindow::on_GetResult_clicked()
 {
     QString str = ui->Screen->text();
     QString bufstr = str;
-    //int pos = str.size()-1;
-    //if (str[pos] != "+" && str[pos] != "-" && str[pos] != "*" && str[pos] != "/" && str[pos] == "."){
-        int indexAction;
-        QString number1;
-        QString number2;
-        int indexBegin;
-        int indexEnd;
-        double first;
-        double second;
-        double result;
-        QString value;
-        QString buf_str;
+    int pos = str.size()-1;
+    if (str[pos] != "+" && str[pos] != "-" && str[pos] != "*" && str[pos] != "/" && str[pos] != "."){
+        int indexZnaka;
+        int indexBeginNumber;
+        int indexEndNumber;
+        QString sNumber1;
+        QString sNumber2;
+        QString sResult;
+        double dNumber1;
+        double dNumber2;
+        double dResult;
+        QString Tempbufstr;
         while (bufstr.contains("+") || bufstr.contains("-") || bufstr.contains("*") || bufstr.contains("/")) {
             if (bufstr.contains("*") || bufstr.contains("/")){
                 for (int i=0; i<bufstr.size(); ++i){
                     if (bufstr[i] == "*" || bufstr[i] == "/"){
-                        indexAction = i;
+                        indexZnaka = i;
                         break;
                     }
                 }
-                for (int i=indexAction-1; i>=0; --i){
+                for (int i=indexZnaka-1; i>=0; --i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
-                        indexBegin = i+1;
+                        indexBeginNumber = i+1;
                         break;
                     }
                     else {
-                       number1 += bufstr[i];
-                       if (i == 0) indexBegin = 0;
+                       sNumber1 += bufstr[i];
+                       if (i == 0) indexBeginNumber = 0;
                     }
                 }
-                for (int i=indexAction+1; i<bufstr.size(); ++i){
+                for (int i=indexZnaka+1; i<bufstr.size(); ++i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
-                        indexEnd = i-1;
+                        indexEndNumber = i-1;
                         break;
                     }
                     else{
-                        number2 += bufstr[i];
-                        if (i == bufstr.size()-1) indexEnd = bufstr.size()-1;
+                        sNumber2 += bufstr[i];
+                        if (i == bufstr.size()-1) indexEndNumber = bufstr.size()-1;
                     }
                 }
-                first = number1.toDouble();
-                second = number2.toDouble();
-                if (bufstr[indexAction] == "*"){
-                    result = first * second;
+                dNumber1 = sNumber1.toDouble();
+                dNumber2 = sNumber2.toDouble();
+                if (bufstr[indexZnaka] == "*"){
+                    dResult = dNumber1 * dNumber2;
                 }
                 else{
-                    result = first / second;
+                    if (dNumber2 == 0){
+                        str = "Error на ноль делить нельзя";
+                        bufstr.clear();
+                        break;
+                    }
+                    else {
+                        dResult = dNumber1 / dNumber2;
+                    }
                 }
-                value = QString::number(result);
-                for (int i=0; i<indexBegin; ++i){
-                    buf_str += bufstr[i];
+                sResult = QString::number(dResult);
+                for (int i=0; i<indexBeginNumber; ++i){
+                    Tempbufstr += bufstr[i];
                 }
-                buf_str += value;
-                for (int i=indexEnd+1; i<bufstr.size(); ++i){
-                    buf_str += bufstr[i];
+                Tempbufstr += sResult;
+                for (int i=indexEndNumber+1; i<bufstr.size(); ++i){
+                    Tempbufstr += bufstr[i];
                 }
-                bufstr = buf_str;
+                bufstr = Tempbufstr;
+                Tempbufstr.clear();
+                sNumber1.clear();
+                sNumber2.clear();
             }
             else if (bufstr.contains("+") || bufstr.contains("-")){
                 for (int i=0; i<bufstr.size(); ++i){
                     if (bufstr[i] == "+" || bufstr[i] == "-"){
-                        indexAction = i;
+                        indexZnaka = i;
                         break;
                     }
                 }
-                for (int i=indexAction-1; i>=0; --i){
+                for (int i=indexZnaka-1; i>=0; --i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
-                        indexBegin = i+1;
+                        indexBeginNumber = i+1;
                         break;
                     }
                     else{
-                        number1 += bufstr[i];
-                        if (i == 0) indexBegin = 0;
+                        sNumber1 += bufstr[i];
+                        if (i == 0) indexBeginNumber = 0;
                     }
                 }
-                for (int i=indexAction+1; i<bufstr.size(); ++i){
+                for (int i=indexZnaka+1; i<bufstr.size(); ++i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
-                        indexEnd = i-1;
+                        indexEndNumber = i-1;
                         break;
                     }
                     else{
-                        number2 += bufstr[i];
-                        if (i == bufstr.size()-1) indexEnd = bufstr.size()-1;
+                        sNumber2 += bufstr[i];
+                        if (i == bufstr.size()-1) indexEndNumber = bufstr.size()-1;
                     }
                 }
-                first = number1.toDouble();
-                second = number2.toDouble();
-                if (bufstr[indexAction] == "+"){
-                    result = first + second;
+                dNumber1 = sNumber1.toDouble();
+                dNumber2 = sNumber2.toDouble();
+                if (bufstr[indexZnaka] == "+"){
+                    dResult = dNumber1 + dNumber2;
                 }
                 else{
-                    result = first - second;
+                    dResult = dNumber1 - dNumber2;
                 }
-                value = QString::number(result);
-                for (int i=0; i<indexBegin; ++i){
-                    buf_str += bufstr[i];
+                sResult = QString::number(dResult);
+                for (int i=0; i<indexBeginNumber; ++i){
+                    Tempbufstr += bufstr[i];
                 }
-                buf_str += value;
-                for (int i=indexEnd+1; i<bufstr.size(); ++i){
-                    buf_str += bufstr[i];
+                Tempbufstr += sResult;
+                for (int i=indexEndNumber+1; i<bufstr.size(); ++i){
+                    Tempbufstr += bufstr[i];
                 }
-                bufstr = buf_str;
+                bufstr = Tempbufstr;
+                Tempbufstr.clear();
+                sNumber1.clear();
+                sNumber2.clear();
             }
         }
-    //}
-    str += "=" + bufstr;
-    ui->Screen->setText(str);
+        str += "=" + bufstr;
+        ui->Screen->setText(str);
+    }
 }
 
 
