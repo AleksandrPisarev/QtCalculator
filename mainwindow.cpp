@@ -107,14 +107,14 @@ void MainWindow::on_GetResult_clicked()
                     }
                 }
                 for (int i=indexZnaka-1; i>=0; --i){
-                    if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
+                    if (i == 0) indexBeginNumber = 0;
+                    else if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
                         indexBeginNumber = i+1;
                         break;
                     }
-                    else {
-                       sNumber1 += bufstr[i];
-                       if (i == 0) indexBeginNumber = 0;
-                    }
+                }
+                for (int i=indexBeginNumber; i<indexZnaka; ++i){
+                    sNumber1 += bufstr[i];
                 }
                 for (int i=indexZnaka+1; i<bufstr.size(); ++i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
@@ -162,14 +162,14 @@ void MainWindow::on_GetResult_clicked()
                     }
                 }
                 for (int i=indexZnaka-1; i>=0; --i){
-                    if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
+                    if (i == 0) indexBeginNumber = 0;
+                    else if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
                         indexBeginNumber = i+1;
                         break;
                     }
-                    else{
-                        sNumber1 += bufstr[i];
-                        if (i == 0) indexBeginNumber = 0;
-                    }
+                }
+                for (int i=indexBeginNumber; i<indexZnaka; ++i){
+                    sNumber1 += bufstr[i];
                 }
                 for (int i=indexZnaka+1; i<bufstr.size(); ++i){
                     if (bufstr[i] == "+" || bufstr[i] == "-" || bufstr[i] == "*" || bufstr[i] == "/"){
